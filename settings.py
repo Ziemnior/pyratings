@@ -18,7 +18,6 @@ CONFIG_FILE = 'config.ini'
 config = configparser.ConfigParser()
 config.read(CONFIG_FILE)
 
-
 # adding value to register
 def add_to_startup():
     try:
@@ -82,7 +81,7 @@ current_interval = Label(refresh_frame, text="(current interval: "+str(ratio)+')
 
 refresh_scale = Scale(refresh_frame, from_=0, to=720, resolution=10, length=300, orient=HORIZONTAL, variable=ratio)
 
-save = Button(refresh_frame, text="Save setitings", command=save_refresh_ratio)
+save = Button(refresh_frame, text='Save settings', command=save_refresh_ratio)
 
 
 refresh_label.pack()
@@ -92,6 +91,4 @@ save.pack()
 
 app.mainloop()
 
-
-# dodać odświeżanie etykiety
 # dodać sprawdzanie czy pojawiła się nowa recenzja

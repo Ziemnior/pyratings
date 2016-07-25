@@ -1,8 +1,8 @@
 import wx
 from wx import adv
 
-TRAY_TOOLTIP = 'System Tray Demo'
-TRAY_ICON = 'icon.png'
+TRAY_TOOLTIP = 'PyRatings'
+TRAY_ICON = (r'other/logo.png')
 
 def create_menu_item(menu, label, func):
     item = wx.MenuItem(menu, -1, label)
@@ -19,7 +19,8 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 
     def CreatePopupMenu(self):
         menu = wx.Menu()
-        create_menu_item(menu, 'Say Hello', self.on_hello)
+        create_menu_item(menu, 'See latest Porcys ratings', self.on_porcys)
+        create_menu_item(menu, 'See lates Pitchfork ratings', self.on_pitchfork)
         menu.AppendSeparator()
         create_menu_item(menu, "Settings", self.on_settings)
         menu.AppendSeparator()
@@ -31,10 +32,13 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         self.SetIcon(icon, TRAY_TOOLTIP)
 
     def on_left_down(self, event):
-        print('Tray icon was left-clicked.')
+        pass
 
-    def on_hello(self, event):
-        print('Hello, world!')
+    def on_porcys(self, event):
+        print('open Porcys reviews')
+
+    def on_pitchfork(self, event):
+        print('open Pitchfork reviews')
 
     def on_settings(self, event):
         print("Open settings")
@@ -57,6 +61,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-
 
 # dodać powiadmienia o nowych recenzjach - demona

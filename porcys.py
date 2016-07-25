@@ -3,14 +3,15 @@ from tkinter import *
 from PIL import Image, ImageTk
 import io
 import urllib.request
-
-website = "http://www.porcys.com/review/"
-openWebsite = Soup(urllib.request.urlopen(website), 'html.parser')
-reviews = openWebsite.find(name="section", attrs={'class': 'slider-content review'}).ul
+import webbrowser
 
 mainWindow = Tk()
 mainWindow.title("Latest Porcys reviews")
 mainWindow.resizable(0, 0)
+
+website = "http://www.porcys.com/review/"
+open_website = Soup(urllib.request.urlopen(website), 'html.parser')
+reviews = open_website.find(name="section", attrs={'class': 'slider-content review'}).ul
 
 results = []
 images = []
@@ -49,6 +50,9 @@ for a in reviews(href=True):
     temp = "http://www.porcys.com" + a['href']
     results.append(temp)
 
+latest_review = results[0]
+print(latest_review)
+
 for i in range(0, 8):
     review = results[i]
     open_review = Soup(urllib.request.urlopen(review), 'html.parser')
@@ -69,13 +73,16 @@ for i in range(0, 8):
     artist_and_album = Label(font=("OpenSansRegularItalic", 12, "bold"), text=get_artist.text + '- ' + get_album.text,
                              cursor="hand2")
 
-    def open_in_browser(event):
-        pass
+
+    def open_in_browser(review: object) -> object:
+        artist_and_album.bind('<Button-1>', lambda event:webbrowser.open(review, 0, True))
+    open_in_browser(review)
+
 
     artist_and_album.bind('<Enter>', open_in_browser)
 
     # rating to label
-    ratingGUI = Label(font=("OpenSansBold", 12, "bold"), fg='#00d0cd', text=get_rating.text)
+    rating = Label(font=("OpenSansBold", 12, "bold"), fg='#00d0cd', text=get_rating.text)
 
     # delete newlines form get_author
     author = get_author.text
@@ -83,7 +90,7 @@ for i in range(0, 8):
     author = ' '.join(author.split())
 
     # author to label
-    author = Label(font=("OpenSansBold", 9, "bold"), text=author)
+    author = Label(font=("OpenSansBold", 8, "bold"), text=author)
 
     # date to label
     date = Label(font=("OpenSansRegular", 8), fg='#939598', text=date)
@@ -99,10 +106,10 @@ for i in range(0, 8):
     # put labels in the grid
     image_cover.grid(row=i, column=0, sticky=W)
     artist_and_album.grid(row=i, column=1, sticky=W + N, pady=20)
-    ratingGUI.grid(row=i, column=2, sticky=W + N, pady=20, padx=10)
+    rating.grid(row=i, column=2, sticky=W + N, pady=20, padx=10)
     author.grid(row=i, column=1, sticky=W + N, pady=40, ipady=5)
-    date.grid(row=i, column=1, sticky=W + N, pady=40, padx=150, ipady=6)
+    date.grid(row=i, column=1, sticky=W + N, pady=40, padx=150, ipady=5)
 
+
+mainWindow.iconbitmap(r'other/logo.ico')
 mainWindow.mainloop()
-
-# add clickable links to reviews

@@ -138,5 +138,5 @@ for i in range(0, 8):
     author.grid(row=i, column=1, sticky=W + N, pady=40, ipady=5)
     date.grid(row=i, column=1, sticky=W + N, pady=40, padx=150, ipady=5)
 
-mainWindow.iconbitmap(r'other/logo.ico')
+mainWindow.iconbitmap(r'images/icon.ico')
 mainWindow.mainloop()

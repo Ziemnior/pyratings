@@ -2,7 +2,7 @@ import wx
 from wx import adv
 
 TRAY_TOOLTIP = 'PyRatings'
-TRAY_ICON = (r'other/logo.png')
+TRAY_ICON = (r'images/icon.ico')
 
 def create_menu_item(menu, label, func):
     item = wx.MenuItem(menu, -1, label)

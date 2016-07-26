@@ -5,17 +5,29 @@ import io
 import urllib.request
 import webbrowser
 
-mainWindow = Tk()
-mainWindow.title("Latest Porcys reviews")
-mainWindow.resizable(0, 0)
 
 website = "http://www.porcys.com/review/"
 open_website = Soup(urllib.request.urlopen(website), 'html.parser')
 reviews = open_website.find(name="section", attrs={'class': 'slider-content review'}).ul
 
-results = []
-images = []
 
+results = []
+
+
+for a in reviews(href=True):
+    temp = "http://www.porcys.com" + a['href']
+    results.append(temp)
+
+global latest_review_porcys
+latest_review_porcys = results[0]
+print(latest_review_porcys)
+
+
+mainWindow = Tk()
+mainWindow.title("Latest Porcys reviews")
+mainWindow.resizable(0, 0)
+
+images = []
 
 def replace_date():
     global date
@@ -45,13 +57,6 @@ def replace_date():
     elif date.find('grudnia') != -1:
         date = date.replace(' grudnia ', '.12.')
 
-
-for a in reviews(href=True):
-    temp = "http://www.porcys.com" + a['href']
-    results.append(temp)
-
-latest_review = results[0]
-print(latest_review)
 
 for i in range(0, 8):
     review = results[i]
@@ -111,5 +116,5 @@ for i in range(0, 8):
     date.grid(row=i, column=1, sticky=W + N, pady=40, padx=150, ipady=5)
 
 
-mainWindow.iconbitmap(r'other/logo.ico')
+mainWindow.iconbitmap(r'images/icon.ico')
 mainWindow.mainloop()

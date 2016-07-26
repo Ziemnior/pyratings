@@ -1,5 +1,7 @@
 import configparser
 from datetime import datetime
+import threading
+
 
 CONFIG_FILE = 'config.ini'
 
@@ -9,7 +11,6 @@ config.read(CONFIG_FILE)
 with open(CONFIG_FILE, 'w') as configfile:
     config.write(configfile)
 ratio = config.getint('refresh', 'interval')
-
 
 def convert_print_date():
     global hour
@@ -39,5 +40,16 @@ def convert_print_date():
         print('update time: ' + str(hour) + ':' + str(minute))
 
 
+def check_update():
+    threading.Timer(15, check_update).start()
+    date_ = datetime.now()
+    hour_ = int(date_.hour)
+    minute_ = int(date_.minute)
+
+    if hour == hour_ and minute == minute_:
+        print('time to update!')
+    else:
+        print('not yet!')
 
 convert_print_date()
+check_update()

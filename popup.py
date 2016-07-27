@@ -1,5 +1,8 @@
 import wx
 from wx import adv
+from porcys import porcys
+from pitchfork import pitchfork
+from settings import settings
 
 TRAY_TOOLTIP = 'PyRatings'
 TRAY_ICON = (r'images/icon.ico')
@@ -35,13 +38,13 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         pass
 
     def on_porcys(self, event):
-        print('open Porcys reviews')
+        porcys()
 
     def on_pitchfork(self, event):
-        print('open Pitchfork reviews')
+        pitchfork()
 
     def on_settings(self, event):
-        print("Open settings")
+        settings()
 
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)

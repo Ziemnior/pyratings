@@ -15,7 +15,7 @@ def get_porcys_review_url():
     for a in reviews(href=True):
         temp = "http://www.porcys.com" + a['href']
         results.append(temp)
-    return results[0]
+    return results
 
 
 def porcys():

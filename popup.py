@@ -7,11 +7,13 @@ from settings import settings
 TRAY_TOOLTIP = 'PyRatings'
 TRAY_ICON = (r'images/icon.ico')
 
+
 def create_menu_item(menu, label, func):
     item = wx.MenuItem(menu, -1, label)
     menu.Bind(wx.EVT_MENU, func, id=item.GetId())
     menu.Append(item)
     return item
+
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
     def __init__(self, frame):
@@ -50,12 +52,14 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         wx.CallAfter(self.Destroy)
         self.frame.Close()
 
+
 class App(wx.App):
     def OnInit(self):
         frame=wx.Frame(None)
         self.SetTopWindow(frame)
         TaskBarIcon(frame)
         return True
+
 
 def main():
     app = App(False)
@@ -64,5 +68,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# dodać powiadmienia o nowych recenzjach - demona

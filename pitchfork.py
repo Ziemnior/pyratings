@@ -17,11 +17,12 @@ def get_pitchfork_review_url():
     for i in open_website.find_all('a', {'class': 'album-link'}, href=True):
         temp = "http://pitchfork.com" + i['href']
         results.append(temp)
-    return results[0]
+    return results
 
 
 def pitchfork():
-    results = get_pitchfork_review_url( )
+    results = get_pitchfork_review_url()
+
     def replace_date():
         global date
         date = get_date
@@ -29,7 +30,7 @@ def pitchfork():
         day_year = get_date[5:]
         day = day_year[0:2]
         year = day_year[3:]
-        s='.'
+        s = '.'
 
         if date.find('January') != -1:
             month = '01'
@@ -86,9 +87,9 @@ def pitchfork():
     BLACK_CIRCLE = "images/p4k_circle_black.png"
     RED_CIRCLE = "images/p4k_circle_red.png"
 
-    mainWindow = Tk()
-    mainWindow.title("Latest Pitchfork reviews")
-    mainWindow.resizable(0, 0)
+    main_window = Tk()
+    main_window.title("Latest Pitchfork reviews")
+    main_window.resizable(0, 0)
 
     for i in range(0, 8):
         review = results[i]
@@ -104,7 +105,7 @@ def pitchfork():
         get_date = open_website.find(name="span", attrs={'class': 'pub-date'}).text
 
         bnm = open_website.find("p", class_="bnm-txt")
-        if bnm != None:
+        if bnm is not None:
             circle = ImageTk.PhotoImage(Image.open(RED_CIRCLE))
             circle_image.append(circle)
             rating = Label(font=("Walfork", 12, "bold"), fg="#FF3530", text=get_rating, image=circle, compound=CENTER)
@@ -114,7 +115,6 @@ def pitchfork():
             rating = Label(font=("Walfork", 12, "bold"), text=get_rating, image=circle, compound=CENTER)
 
         artist_and_album = Label(font=("Walfork", 12, "bold"), text=get_artist + ' - ' + get_album, cursor="hand2")
-
 
         def open_in_browser(review):
             artist_and_album.bind('<Button-1>', lambda event: webbrowser.open(review, 0, True))
@@ -130,7 +130,7 @@ def pitchfork():
         opened_cover = Image.open(io.BytesIO(open_cover))
         resized_cover = opened_cover.resize((100, 100), Image.ANTIALIAS)
         final_cover = ImageTk.PhotoImage(resized_cover)
-        image_cover = Label(mainWindow, image=final_cover, borderwidth=1, bg='black', fg='white')
+        image_cover = Label(main_window, image=final_cover, borderwidth=1, bg='black', fg='white')
         images.append(final_cover)
 
         image_cover.grid(row=i, column=0, sticky=W)
@@ -139,5 +139,5 @@ def pitchfork():
         author.grid(row=i, column=1, sticky=W + N, pady=40, ipady=5)
         date_label.grid(row=i, column=1, sticky=W + N, pady=40, padx=150, ipady=5)
 
-    mainWindow.iconbitmap(r'images/icon.ico')
-    mainWindow.mainloop()
+    main_window.iconbitmap(r'images/icon.ico')
+    main_window.mainloop()

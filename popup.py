@@ -3,6 +3,10 @@ from wx import adv
 from porcys import porcys
 from pitchfork import pitchfork
 from settings import settings
+from update import run_update
+import threading
+import os
+
 
 TRAY_TOOLTIP = 'PyRatings'
 TRAY_ICON = (r'images/icon.ico')
@@ -67,4 +71,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    threading.Thread(target=main).start()
+    update_daemon = threading.Thread(target=run_update)
+    update_daemon.daemon = True
+    update_daemon.start()

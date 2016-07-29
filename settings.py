@@ -87,4 +87,5 @@ def settings():
     refresh_scale.pack()
     save.pack()
 
+    app.iconbitmap(r'images/icon.ico')
     app.mainloop()

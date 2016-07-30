@@ -2,7 +2,36 @@ from tkinter import *
 import winreg
 import configparser
 import os
+import update
+from porcys import get_porcys_review_url
+from pitchfork import get_pitchfork_review_url
 
+CONFIG_FILE = 'config.ini'
+
+config = configparser.ConfigParser()
+config.read(CONFIG_FILE)
+
+def save_links_to_config():
+
+    porcys_ = get_porcys_review_url()
+    porcys = porcys_[0]
+
+    pitchfork_ = get_pitchfork_review_url()
+    pitchfork = pitchfork_[0]
+
+    if not os.path.isfile(CONFIG_FILE):
+        config.add_section('review links')
+        config.add_section('refresh')
+        config.set('review links', 'porcys', porcys)
+        config.set('review links', 'pitchfork', pitchfork)
+        config.set('refresh', 'interval', str(10))
+        with open(CONFIG_FILE, 'w+') as configfile:
+            config.write(configfile)
+    # else:
+    #     config.set('review links', 'porcys', porcys)
+    #     config.set('review links', 'pitchfork', pitchfork)
+    #     with open(CONFIG_FILE, 'w+') as configfile:
+    #         config.write(configfile)
 
 def settings():
     app = Tk()
@@ -14,17 +43,12 @@ def settings():
 
     # path to startup on Windows
     REGISTRY_PATH = r"Software\\Microsoft\\Windows\\CurrentVersion\\Run\\"
-    CONFIG_FILE = 'config.ini'
-    current_dir = os.path.abspath(__file__)
-
-    config = configparser.ConfigParser()
-    config.read(CONFIG_FILE)
 
     # adding value to register
     def add_to_startup():
         try:
             key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, REGISTRY_PATH, 0, winreg.KEY_ALL_ACCESS)
-            winreg.SetValueEx(key, 'pyRatings', 0, winreg.REG_SZ, current_dir)
+            winreg.SetValueEx(key, 'pyRatings', 0, winreg.REG_SZ, update.current_dir)
             key.Close()
         except Exception:
             pass

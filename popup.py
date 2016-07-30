@@ -2,14 +2,15 @@ import wx
 from wx import adv
 from porcys import porcys
 from pitchfork import pitchfork
-from settings import settings
+from settings import settings, save_links_to_config
 from update import run_update
+import update
 import threading
 import os
 
 
 TRAY_TOOLTIP = 'PyRatings'
-TRAY_ICON = (r'images/icon.ico')
+TRAY_ICON = r'images/icon.ico'
 
 
 def create_menu_item(menu, label, func):
@@ -50,12 +51,13 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         pitchfork()
 
     def on_settings(self, event):
+        update.current_dir = os.path.abspath("pyRatings.exe")
         settings()
 
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)
         self.frame.Close()
-
+        wx.Exit()
 
 class App(wx.App):
     def OnInit(self):
@@ -71,7 +73,9 @@ def main():
 
 
 if __name__ == '__main__':
-    threading.Thread(target=main).start()
+    save_links_to_config()
+    main_thread = threading.Thread(target=main).start()
     update_daemon = threading.Thread(target=run_update)
     update_daemon.daemon = True
     update_daemon.start()
+    print(threading.activeCount())
